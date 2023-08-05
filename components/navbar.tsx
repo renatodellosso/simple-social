@@ -1,9 +1,9 @@
 import SignIn from "./signin";
 
-export default function Navbar() {
+export default function Navbar({ session }) {
     return (
         <div className="navbar">
-            <SignIn/>
+            <SignIn session={session}/>
         </div>
     )
 }

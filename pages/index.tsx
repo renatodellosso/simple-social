@@ -33,5 +33,5 @@ export async function getServerSideProps(ctx: any) {
     props: {
         session: await getServerSession(ctx.req, ctx.res, authOptions)
     }
-}
+  }
 }
