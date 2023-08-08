@@ -13,19 +13,19 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   }, []);
 
   return <SessionProvider session={session}>
-    {/* None of the DaisyUI Toast styling seems to work, so toasts aren't affected by your theme*/}
-    <Toaster containerClassName='toast toast-top toast-start' position="top-right" toastOptions={{
-      className: "alert alert-info",
-      success: {
-        className: "alert alert-success",
-      },
-      error: {
-        className: "alert alert-danger",
-      },
-    }}/>
     <div id="mainDiv" data-theme={theme}>
+      {/* None of the DaisyUI Toast styling seems to work, so toasts aren't affected by your theme*/}
+      <Toaster containerClassName='toast toast-top toast-start' position="top-right" toastOptions={{
+        className: "alert alert-info",
+        success: {
+          className: "alert alert-success",
+        },
+        error: {
+          className: "alert alert-danger",
+        },
+      }}/>
       {session ? <Navbar {...{session, theme}}/> : ""}
-      <Component {...{session, pageProps}} />
+      <Component {...{theme, session, ...pageProps}} />
     </div>
   </SessionProvider>
 }

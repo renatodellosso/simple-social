@@ -4,9 +4,11 @@ import Head from 'next/head'
 import { authOptions } from './api/auth/[...nextauth]'
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
+import { getDisplayedPosts, getPosts } from '@/lib/db';
+import PostComponent from '@/components/postcomponent';
+import { DisplayedPost } from '@/lib/types';
 
 function onPost(event: FormEvent<HTMLElement>) {
-
   event.preventDefault();
 
   let input = document.getElementById('postText') as HTMLInputElement;
@@ -23,7 +25,7 @@ function onPost(event: FormEvent<HTMLElement>) {
     }).then(async (res) => {
       const data = await res.json() as {text: string};
 
-      if(res.status == 401) {
+      if(res.status != 200) {
         toast.error(data.text);
         throw new Error("Not signed in.");
       }
@@ -37,7 +39,8 @@ function onPost(event: FormEvent<HTMLElement>) {
   }
 }
 
-export default function Home({ session }) {
+export default function Home({ theme, session, posts }) {
+
   return (
     <>
       <Head>
@@ -56,7 +59,7 @@ export default function Home({ session }) {
                 </div>
               </div>
           </div>
-        : <div className='w-1/2 flex flex-col m-auto mt-6'>
+        : <div className='w-3/4 flex flex-col m-auto mt-6'>
             {/* This displays when the user is signed in */}
             <div>
               Welcome, <span className="text-accent">{session.user.name}</span>!
@@ -66,6 +69,7 @@ export default function Home({ session }) {
                 <button className='btn btn-primary' type='submit'>Post</button>
               </form>
               <div id="posts" className='flex flex-col'>
+                { posts?.map((post: DisplayedPost) => <PostComponent key={post.time} theme={theme} post={post} /> )}
               </div>
             </div>
           </div>
@@ -76,9 +80,13 @@ export default function Home({ session }) {
 }
 
 export async function getServerSideProps(ctx: any) {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+  const posts = await getDisplayedPosts();
+
   return {
     props: {
-        session: await getServerSession(ctx.req, ctx.res, authOptions)
+        session: session,
+        posts: session ? posts : null
     }
   }
 }

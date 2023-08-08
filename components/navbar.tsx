@@ -6,7 +6,7 @@ export default function Navbar({ session, theme }) {
     return (
         <div className="navbar">
             { session ? 
-                <Avatar user={session.user} theme={theme}/>
+                <Avatar image={session.user.image} theme={theme}/>
                 : ""
             }
             <SignIn session={session}/>
