@@ -38,7 +38,7 @@ export async function getUserBySession(session: Session) : Promise<WithId<User> 
 
 export async function updateUser(user: User, update: UpdateFilter<User> | Partial<User>) {
     await getUsers().then(async users => {
-        users.updateOne({ _id: new ObjectId(user._id) }, update);
+        users.updateOne({ _id: user._id }, update);
     });
 }
 

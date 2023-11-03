@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { getDisplayedPosts, getPosts } from '@/lib/db';
 import PostComponent from '@/components/postcomponent';
 import { DisplayedPost } from '@/lib/types';
+import { useRouter } from 'next/router';
 
 function onPost(event: FormEvent<HTMLElement>) {
   event.preventDefault();
@@ -28,6 +29,9 @@ function onPost(event: FormEvent<HTMLElement>) {
       if(res.status != 200) {
         toast.error(data.text);
         throw new Error("Not signed in.");
+      }
+      else {
+        window.location.reload();
       }
     }), {
       loading: 'Posting...',

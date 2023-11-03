@@ -26,19 +26,26 @@ export const authOptions: AuthOptions = {
 
             console.log("User signed in. User: " + u.name);
 
+            u.dataVersion ??= 0;
             if(u.dataVersion != process.env.USER_DATA_VERSION as unknown as number) {
-                console.log("Updating user data from version: " + u.dataVersion + "...");
-                
-                u._id ??= new ObjectId(u.id);
+                try {
+                    console.log("Updating user data from version: " + u.dataVersion + "...");
+                    
+                    u.dataVersion ??= 0;
+                    u._id ??= new ObjectId(u.id);
 
-                //Initialize user data
-                updateUser(u, {
-                    $set: {
-                        _id: u._id,
-                        posts: u.posts ?? [],
-                        dataVersion: process.env.USER_DATA_VERSION as unknown as number
-                    },
-                });
+                    //Initialize user data
+                    updateUser(u, {
+                        $set: {
+                            _id: u._id,
+                            posts: u.posts ?? [],
+                            dataVersion: process.env.USER_DATA_VERSION as unknown as number
+                        },
+                    });
+                }
+                catch(e) {
+                    console.error(e);
+                }
             }
 
             return true;
