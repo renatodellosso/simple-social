@@ -1,6 +1,6 @@
-import Router from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import daisyui from "tailwindcss"
 
 export default function ThemeSelect() {
     const [theme, setTheme] = useState('dark');
@@ -12,15 +12,35 @@ export default function ThemeSelect() {
     //Keep this up to date with the options in tailwind.config.js
     let themeOptions = [
         "dark",
-        "light", 
-        "synthwave",
         "cyberpunk",
-        "dracula",
+        "light",
+        "cupcake",
+        "bumblebee",
+        "emerald",
+        "corporate",
+        "synthwave",
+        "retro",
+        "valentine",
+        "halloween",
+        "garden",
         "forest",
+        "aqua",
+        "lofi",
+        "pastel",
+        "fantasy",
+        "wireframe",
         "black",
         "luxury",
-        "cupcake",
-    ];
+        "dracula",
+        "cmyk",
+        "autumn",
+        "business",
+        "acid",
+        "lemonade",
+        "night",
+        "coffee",
+        "winter",
+      ];
 
     return <select value={theme} className="select" onChange={(e) => {
             console.log("Changing theme: " + e.target.value);
@@ -30,6 +50,8 @@ export default function ThemeSelect() {
             document.getElementById('mainDiv')?.setAttribute('data-theme', e.target.value); //Update the page
 
             toast.success("Theme changed to " + e.target.value);
+
+            window.location.reload();
         }}>
             {themeOptions.map((themeOption) => {
                return <option key={themeOption} value={themeOption}>{themeOption.toUpperCase()}</option>

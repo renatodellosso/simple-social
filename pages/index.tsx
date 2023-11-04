@@ -44,7 +44,6 @@ function onPost(event: FormEvent<HTMLElement>) {
 }
 
 export default function Home({ theme, session, posts }) {
-
   return (
     <>
       <Head>
@@ -67,7 +66,7 @@ export default function Home({ theme, session, posts }) {
             {/* This displays when the user is signed in */}
             <div>
               Welcome, <span className="text-accent">{session.user.name}</span>!
-              <form className='flex flex-row gap-2' onSubmit={onPost}>
+              <form className='flex flex-row gap-2' autoComplete='off' onSubmit={onPost}>
                 <input id="postText" type="text" placeholder="Deep thoughts?" onSubmit={onPost}
                   className="input input-bordered input-primary w-full" />
                 <button className='btn btn-primary' type='submit'>Post</button>
